@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>凯喜姆阀门</title>
+    <link rel="stylesheet" href="/static/choose_people/index.css" media="screen" type="text/css">
+    <link rel="icon" href="data:;base64,=">
+
+
+    <style>
+        #btn {
+            position: absolute;
+            width: 250px;
+            font-size: 32px;
+            bottom: 50px;
+            right: 130px;
+            background-color: #ef4036;
+            border: 1px solid #ffffff;
+            color: #e8e8e8;
+            cursor: pointer;
+            border-radius: 10px;
+            height: 60px;
+        }
+
+        #btn:hover {
+            background-color: #ff0000;
+            color: #8e00f1;
+            border-color: #000000;
+        }
+
+        #re_btn {
+            position: absolute;
+            width: 70px;
+            font-size: 32px;
+            bottom: 150px;
+            right: -150px;
+            background-color: #ef4036;
+            border: 1px solid #ffffff;
+            color: #e8e8e8;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 10px;
+
+        }
+
+        #re_btn:hover {
+            background-color: #ff0000;
+            color: #8e00f1;
+            border-color: #000000;
+        }
+
+
+        .lucky_title {
+            font-size: 50px;
+            margin-top: 5%;
+            font-weight: 900;
+            font-family: 华文行楷;
+
+        }
+
+        .lucky_prize_title {
+            font-size: 32px !important;
+
+        }
+
+        .lucky_setting {
+            text-align: center;
+            padding-right: 20%;
+            font-size: 28px;
+        }
+
+        #choosed_people_display {
+            position: absolute;
+            left: -15%;
+            font-size: 32px;
+            top: 20%;
+
+
+        }
+
+        .bcon h3 {
+            color: #ffffff;
+            background-color: #ff6c00;
+            text-align: center;
+            height: 60px;
+            line-height: 60px;
+
+        }
+
+        .list_lh {
+            height: 500px !important;
+        }
+
+        .lpl_userName {
+            font-size: 32px;
+        }
+
+        .select_lucky_number {
+            width: 50px;
+        }
+
+    </style>
+
+
+    <link type="text/css" href="/static/choosed_display/css/style.css" rel="stylesheet"/>
+
+
+</head>
+<body>
+{% csrf_token %}
+
+<div id="luckey_men_list" style="display:none;">{{ luckey_men }}</div>
+
+{#已中奖编号#}
+<div class="box" id="choosed_people_display">
+    <div class="bcon">
+        <h3>已中奖编号</h3>
+        <!-- 代码开始 -->
+        <div class="list_lh">
+            <ul>
+                {% for luckey_man in luckey_men_list %}
+
+                    {% if luckey_man != '0' %}
+                        {% if luckey_man %}
+                            <li>
+                                <p>{{ luckey_man }}</p>
+                            </li>
+                        {% endif %}
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </ul>
+        </div>
+        <!-- 代码结束 -->
+    </div>
+
+
+</div>
+
+
+<div class="container none"></div>
+<div class="mask"></div>
+<div id="stop" class="btn_circle none">停止</div>
+<div class="lucky_title">
+        <span id="head-title">
+            2019年凯喜姆阀门有限公司年会抽奖活动
+        </span>
+</div>
+<div class="loader_file">
+    用户数据导入中 <span class="current_number"></span><span class="all_number"></span>
+</div>
+<div class="lucky_list clearfix">
+    <div class="left lucky_prize">
+        <div class="lucky_prize_box">
+            <button class="lucky_prize_left lucky_prize_direction"><</button>
+            <div data-default="1" class="lucky_prize_picture">
+                <img class="lucky_prize_show none"
+                     src="/static/choose_people/img/bXshiKc7Z2mQusImhSzC33czcBci3K.png"
+                     alt="特等奖"/>
+                <img class="none lucky_prize_show"
+                     src="/static/choose_people/img/szSy9dU21WZnSdGwP9tE533ntEd1WE.png"
+                     alt="幸运奖"/>
+
+            </div>
+            <button class="lucky_prize_right active lucky_prize_direction">></button>
+        </div>
+        <div class="lucky_prize_title">一等奖笔记本</div>
+        <div class="lucky_setting">
+
+            <div class="select_box">
+                一次抽
+                <select name="select_lucky_number" class='select_lucky_number'>
+                    <option selected="selected" value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                人
+            </div>
+        </div>
+        <div id="open" class="btn_circle btn_start">开始</div>
+    </div>
+    <div class="right lucky_people_list">
+        <div class="lucky_people_title">中奖名单</div>
+        <div class="lpl_list clearfix none">
+
+        </div>
+        <div class="lpl_list clearfix none">
+
+        </div>
+        <div class="lpl_list clearfix none">
+
+        </div>
+
+        <button id="btn">抽取奖品</button>
+
+    </div>
+
+    <button id="re_btn">重<br>新<br>开<br>始<br>选<br>择</button>
+</div>
+</body>
+
+
+<script src="/static/choose_people/js/jquery.min.js"></script>
+<script type="text/javascript" src='/static/choose_people/js/transform.js'></script>
+<script type="text/javascript" src='/static/choose_people/js/tick.js'></script>
+<!--data为静态数据 如用ajax获取请取消输入引入-->
+<!--抽奖动画-->
+<script type="text/javascript" src='/static/choose_people/js/3d.js'></script>
+<!--实际抽奖逻辑代码-->
+<script type="text/javascript" src='/static/choose_people/js/lucky.js'></script>
+<!-- ajax抽奖逻辑 -->
+<!-- <script type="text/javascript" src='js/ajaxLucky.js'></script> -->
+<script type="text/javascript" src="/static/choose_people/js/data.js"></script>
+
+<script>
+    $(function () {
+
+        $('#btn').click(function () {
+
+            $.ajax({
+                url: '',
+                type: 'post',
+                data: {
+                    csrfmiddlewaretoken: $("[name = 'csrfmiddlewaretoken']").val()
+                },
+                success: function (response) {
+                    if (response.is_success) {
+                        location.href = '/choose_gift/'
+                    }
+                }
+            })
+
+        });
+
+    });
+</script>
+
+{#这里是动态显示已经中将的编号#}
+<script type="text/javascript" src="/static/choosed_display/js/scroll.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.list_lh li:even').addClass('lieven');
+    });
+    $(function () {
+        $("div.list_lh").myScroll({
+            speed: 40, //数值越大，速度越慢
+            rowHeight: 68 //li的高度
+        });
+    });
+</script>
+
+</html>
